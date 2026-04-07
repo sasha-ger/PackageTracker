@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace PackageTracker.API.Controllers;
+namespace PackageTracker.Managers.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

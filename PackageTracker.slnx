@@ -1,3 +1,7 @@
 <Solution>
-  <Project Path="PackageTracker.API/PackageTracker.API.csproj" />
+  <Project Path="PackageTracker.Managers/PackageTracker.Managers.csproj" />
+  <Project Path="PackageTracker.Engines/PackageTracker.Engines.csproj" />
+  <Project Path="PackageTracker.Accessors/PackageTracker.Accessors.csproj" />
+  <Project Path="PackageTracker.Models/PackageTracker.Models.csproj" />
+  <Project Path="PackageTracker.Tests/PackageTracker.Tests.csproj" />
 </Solution>
