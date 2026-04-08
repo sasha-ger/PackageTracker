@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DeliveryService } from '../../core/services/delivery.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-delivery-request',
@@ -10,36 +11,108 @@ import { DeliveryService } from '../../core/services/delivery.service';
   styleUrl: './delivery-request.scss',
 })
 export class DeliveryRequestComponent {
-  origin = '';
+  pickup = '';
   destination = '';
-  submitted = false;
   error = '';
+  success = '';
 
-  constructor(private deliveryService: DeliveryService) {}
+  constructor(
+    private deliveryService: DeliveryService,
+    private auth: AuthService
+  ) {}
 
   submitRequest() {
-    if (!this.origin || !this.destination) {
-      this.error = 'Please fill out both fields.';
+    const userId = this.auth.getUserIdFromToken();
+
+    if (!userId) {
+      this.error = 'You must be logged in to submit a delivery request.';
+      return;
+    }
+
+    if (!this.pickup || !this.destination) {
+      this.error = 'Please fill out all fields.';
       return;
     }
 
     this.error = '';
+    this.success = '';
 
-    const request = {
-      originLocation: this.origin,
-      destinationLocation: this.destination
-    };
-
-    this.deliveryService.createDeliveryRequest(request).subscribe({
-      next: () => {
-        this.submitted = true;
+    this.deliveryService.createDeliveryRequest({
+      customerId: userId,
+      origin: this.pickup,
+      destination: this.destination
+    }).subscribe({
+      next: (pkg) => {
+        this.success = `Delivery request submitted! New package ID: ${pkg.packageId}`;
+        this.pickup = '';
+        this.destination = '';
       },
       error: () => {
-        this.error = 'Failed to submit request.';
+        this.error = 'Failed to submit delivery request.';
       }
     });
   }
 }
+
+
+
+
+// import { Component } from '@angular/core';
+// import { FormsModule } from '@angular/forms';
+// import { DeliveryService } from '../../core/services/delivery.service';
+// import { AuthService } from '../../core/services/auth.service';
+
+// @Component({
+//   selector: 'app-delivery-request',
+//   standalone: true,
+//   imports: [FormsModule],
+//   templateUrl: './delivery-request.html',
+//   styleUrl: './delivery-request.scss',
+// })
+// export class DeliveryRequestComponent {
+//   pickup = '';
+//   destination = '';
+//   error = '';
+//   success = '';
+
+//   constructor(
+//     private deliveryService: DeliveryService,
+//     private auth: AuthService
+//   ) {}
+
+//   submitRequest() {
+//     const userId = this.auth.getUserIdFromToken();
+
+//     if (!userId) {
+//       this.error = 'You must be logged in to submit a delivery request.';
+//       return;
+//     }
+
+//     if (!this.pickup || !this.destination) {
+//       this.error = 'Please fill out all fields.';
+//       return;
+//     }
+
+//     this.error = '';
+//     this.success = '';
+
+//     this.deliveryService.createDeliveryRequest({
+//       customerId: userId,
+//       pickupLocation: this.pickup,
+//       destinationAddress: this.destination
+//     }).subscribe({
+//       next: () => {
+//         this.success = 'Delivery request submitted successfully!';
+//         this.pickup = '';
+//         this.destination = '';
+//       },
+//       error: () => {
+//         this.error = 'Failed to submit delivery request.';
+//       }
+//     });
+//   }
+// }
+
 
 
 

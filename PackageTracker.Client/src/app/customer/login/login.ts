@@ -20,7 +20,7 @@ export class LoginComponent {
     this.auth.login(this.email, this.password).subscribe({
       next: () => {
         // redirect to tracking page after login
-        window.location.href = '/customer/tracking';
+        window.location.href = '/customer/my-deliveries';
       },
       error: () => {
         this.error = 'Invalid email or password';

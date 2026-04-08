@@ -1,35 +1,41 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { PackageEventService } from '../../core/services/package-event.service';
 
 @Component({
   selector: 'app-tracking',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule],
   templateUrl: './tracking.html',
   styleUrl: './tracking.scss',
 })
-export class TrackingComponent {
-  packageId!: number;
+export class TrackingComponent implements OnInit {
+  packageId: number | null = null;
   status: any = null;
   error = '';
 
-  constructor(private packageEvents: PackageEventService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private packageEvents: PackageEventService
+  ) {}
 
-  track() {
+  ngOnInit() {
+    // ⭐ Read ?packageId=1 from the URL
+    this.packageId = Number(this.route.snapshot.queryParamMap.get('packageId'));
+
     if (!this.packageId) {
-      this.error = 'Please enter a package ID.';
+      this.error = 'No package ID provided.';
       return;
     }
 
-    this.error = '';
+    // ⭐ Load the status for that package
     this.packageEvents.getPackageStatus(this.packageId).subscribe({
-      next: (result) => {
+      next: (result: any) => {
         this.status = result;
       },
       error: () => {
-        this.error = 'Package not found.';
-        this.status = null;
+        this.error = 'Failed to load package status.';
       }
     });
   }

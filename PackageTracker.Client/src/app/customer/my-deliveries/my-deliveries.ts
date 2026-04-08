@@ -36,6 +36,15 @@ export class MyDeliveriesComponent implements OnInit {
       }
     });
   }
+
+  track(id: number) {
+  window.location.href = `/customer/tracking?packageId=${id}`;
+}
+
+goToRequest() {
+  window.location.href = '/customer/delivery-request';
+}
+
 }
 
 

@@ -1,5 +1,6 @@
 <div class="my-deliveries-container">
   <h2>My Deliveries</h2>
+  <button (click)="goToRequest()">Request a Delivery</button>
 
   <p class="error" *ngIf="error">{{ error }}</p>
 
@@ -13,6 +14,8 @@
     <p><strong>Status:</strong> {{ d.status }}</p>
     <p><strong>Current Depot:</strong> {{ d.currentDepotId }}</p>
     <p><strong>Last Updated:</strong> {{ d.timestamp }}</p>
+
+     <button (click)="track(d.packageId)">Track</button>
   </div>
 </div>
 

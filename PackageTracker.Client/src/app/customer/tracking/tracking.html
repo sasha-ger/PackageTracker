@@ -1,4 +1,4 @@
-<div class="tracking-container">
+<!-- <div class="tracking-container">
   <h2>Track Your Package</h2>
 
   <div class="input-row">
@@ -9,6 +9,19 @@
     />
     <button (click)="track()">Track</button>
   </div>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+
+  <div class="status-card" *ngIf="status">
+    <h3>Status: {{ status.status }}</h3>
+
+    <p><strong>Package ID:</strong> {{ status.packageId }}</p>
+    <p><strong>Current Depot:</strong> {{ status.currentDepotId }}</p>
+    <p><strong>Last Updated:</strong> {{ status.timestamp }}</p>
+  </div>
+</div> -->
+<div class="tracking-container">
+  <h2>Tracking Package #{{ packageId }}</h2>
 
   <p class="error" *ngIf="error">{{ error }}</p>
 
