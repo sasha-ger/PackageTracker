@@ -52,6 +52,10 @@ export class DeliveryService {
   getPackagesByCustomer(customerId: number): Observable<Package[]> {
     return of(this.mockPackages.filter(p => p.customerId === customerId));
   }
+
+  getAllDeliveries(): Observable<Package[]> {
+    return of(this.mockPackages);
+  }
 }
 
 

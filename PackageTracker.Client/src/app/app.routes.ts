@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'customer/login', pathMatch: 'full' },
-
   {
     path: 'customer',
     children: [
@@ -25,6 +24,31 @@ const routes: Routes = [
         path: 'my-deliveries',
         loadComponent: () =>
           import('./customer/my-deliveries/my-deliveries').then(m => m.MyDeliveriesComponent)
+      }
+    ]
+  },
+  {
+    path: 'staff',
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./staff/dashboard/dashboard').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'drone-tracker',
+        loadComponent: () =>
+          import('./staff/drone-tracker/drone-tracker').then(m => m.DroneTracker)
+      },
+      {
+        path: 'dispatch',
+        loadComponent: () =>
+          import('./staff/dispatch/dispatch').then(m => m.Dispatch)
+      },
+      {
+        path: 'all-packages',
+        loadComponent: () =>
+          import('./staff/all-packages/all-packages').then(m => m.AllPackages)
       }
     ]
   }

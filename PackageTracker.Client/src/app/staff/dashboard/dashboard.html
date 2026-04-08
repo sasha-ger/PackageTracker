@@ -1,0 +1,111 @@
+<div class="dashboard">
+
+    <div class="header">
+      <h1>Staff Dashboard</h1>
+      <p>Mo's Drones — Package Tracker</p>
+    </div>
+  
+    <!-- Summary Cards -->
+    <div class="cards">
+      <div class="card blue">
+        <h3>Total Drones</h3>
+        <p class="number">{{ totalDrones }}</p>
+      </div>
+      <div class="card green">
+        <h3>Idle Drones</h3>
+        <p class="number">{{ idleDrones }}</p>
+      </div>
+      <div class="card orange">
+        <h3>Active Drones</h3>
+        <p class="number">{{ activeDrones }}</p>
+      </div>
+      <div class="card purple">
+        <h3>In Transit</h3>
+        <p class="number">{{ inTransitPackages }}</p>
+      </div>
+      <div class="card teal">
+        <h3>Delivered</h3>
+        <p class="number">{{ deliveredPackages }}</p>
+      </div>
+    </div>
+  
+    <!-- Drones Table -->
+    <div class="section">
+      <h2>Drone Status</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Drone ID</th>
+            <th>Status</th>
+            <th>Current Depot</th>
+            <th>Package Onboard</th>
+            <th>Range (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of suas">
+            <td>SUAS-{{ s.suasId }}</td>
+            <td>
+              <span class="badge" [ngClass]="s.status.toLowerCase()">
+                {{ s.status }}
+              </span>
+            </td>
+            <td>Depot {{ s.currentDepotId }}</td>
+            <td>{{ s.packageOnBoard ?? '—' }}</td>
+            <td>{{ s.rangeKm }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Depots Table -->
+    <div class="section">
+      <h2>Depot Overview</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Depot ID</th>
+            <th>Name</th>
+            <th>Location (km)</th>
+            <th>Available Drones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of depots">
+            <td>{{ d.depotId }}</td>
+            <td>{{ d.name }}</td>
+            <td>{{ d.locationKm }}</td>
+            <td>{{ d.availableSuas.length }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Recent Packages -->
+    <div class="section">
+      <h2>Recent Packages</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Package ID</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of packages">
+            <td>#{{ p.packageId }}</td>
+            <td>{{ p.origin }}</td>
+            <td>{{ p.destination }}</td>
+            <td>
+              <span class="badge" [ngClass]="p.status.toLowerCase()">
+                {{ p.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  </div>

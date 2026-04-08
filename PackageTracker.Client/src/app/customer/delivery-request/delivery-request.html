@@ -32,8 +32,12 @@
 <div class="delivery-request-container">
   <h2>Request a Delivery</h2>
 
-  <p class="error" *ngIf="error">{{ error }}</p>
-  <p class="success" *ngIf="success">{{ success }}</p>
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+  @if (success) {
+    <p class="success">{{ success }}</p>
+  }
 
   <div class="form">
     <label>Pickup Location</label>
