@@ -1,21 +1,23 @@
+using PackageTracker.Accessors.Interfaces;
 using PackageTracker.Models;
 
 namespace PackageTracker.Engines;
 
-public class StaffTrackingEngine : IStaffTrackingEngine
+public class StaffTrackingEngine(IDroneAccessor droneAccessor, IPackageAccessor packageAccessor) : IStaffTrackingEngine
 {
-    public Task<List<Drone>> GetAllDroneStatuses()
+    public async Task<List<Drone>> GetAllDroneStatuses()
     {
-        throw new NotImplementedException();
+        return await droneAccessor.GetAll();
     }
 
     public Task<Package?> GetPackageAssignedToDrone(int droneId)
     {
+        // TODO: Cannot implement until the schema links a drone to a package.
         throw new NotImplementedException();
     }
 
-    public Task<List<Package>> GetAllActivePackages()
+    public async Task<List<Package>> GetAllActivePackages()
     {
-        throw new NotImplementedException();
+        return await packageAccessor.GetAllActive();
     }
 }

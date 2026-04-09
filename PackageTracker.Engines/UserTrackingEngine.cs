@@ -6,6 +6,8 @@ namespace PackageTracker.Engines;
 
 public class UserTrackingEngine(IPackageAccessor packageAccessor) : IUserTrackingEngine
 {
+    // Fetches the package by ID and returns a status string via BuildStatusString.
+    // Throws if the package does not exist.
     public async Task<string> GetPackageStatus(int packageId)
     {
         var package = await packageAccessor.GetById(packageId)
@@ -14,6 +16,9 @@ public class UserTrackingEngine(IPackageAccessor packageAccessor) : IUserTrackin
         return BuildStatusString(package);
     }
 
+    // Fetches the package by ID and returns a formatted string with its full details:
+    // tracking number, recipient, origin, destination, status, and last updated timestamp.
+    // Throws if the package does not exist.
     public async Task<string> GetPackageDetails(int packageId)
     {
         var package = await packageAccessor.GetById(packageId)
@@ -27,6 +32,8 @@ public class UserTrackingEngine(IPackageAccessor packageAccessor) : IUserTrackin
                $"Last Updated: {(package.UpdatedAt.HasValue ? package.UpdatedAt.Value.ToString("g") : "N/A")}";
     }
 
+    // Converts a Package's status enum into a customer-facing sentence.
+    // Used by GetPackageStatus and can be called directly when a Package object is already in scope.
     public string BuildStatusString(Package package)
     {
         return package.Status switch
