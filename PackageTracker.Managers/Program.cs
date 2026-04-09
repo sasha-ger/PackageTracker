@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PackageTracker.Accessors;
 using PackageTracker.Accessors.Data;
 using PackageTracker.Accessors.Interfaces;
+using PackageTracker.Engines;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,12 @@ builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddScoped<IDroneAccessor, DroneAccessor>();
 builder.Services.AddScoped<IDepotAccessor, DepotAccessor>();
 builder.Services.AddScoped<ILocationAccessor, LocationAccessor>();
+
+// Engines
+builder.Services.AddScoped<IRequestEngine, RequestEngine>();
+builder.Services.AddScoped<IRoutingEngine, RoutingEngine>();
+builder.Services.AddScoped<IUserTrackingEngine, UserTrackingEngine>();
+builder.Services.AddScoped<IStaffTrackingEngine, StaffTrackingEngine>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
