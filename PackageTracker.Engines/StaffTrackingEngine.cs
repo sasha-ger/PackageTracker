@@ -10,11 +10,15 @@ public class StaffTrackingEngine(IDroneAccessor droneAccessor, IPackageAccessor 
         return await droneAccessor.GetAll();
     }
 
-    public Task<Package?> GetPackageAssignedToDrone(int droneId)
+    public async Task<Package?> GetPackageAssignedToDrone(int droneId)
     {
-        // TODO: Cannot implement until the schema links a drone to a package.
-        // Should probably add CurrentPackageID to Drone in DB
-        throw new NotImplementedException();
+        var drone = await droneAccessor.GetById(droneId)
+            ?? throw new Exception($"Drone {droneId} not found.");
+
+        if (drone.CurrentPackageId == null)
+            return null;
+
+        return await packageAccessor.GetById(drone.CurrentPackageId.Value);
     }
 
     public async Task<List<Package>> GetAllActivePackages()

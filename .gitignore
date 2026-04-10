@@ -22,3 +22,5 @@ dist/
 # ── IDE ───────────────────────────────────────────
 .vscode/settings.json
 .idea/
+
+.fake
