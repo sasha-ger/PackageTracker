@@ -1,1 +1,48 @@
-<p>navbar works!</p>
+<nav class="navbar">
+    <div class="nav-left">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="brand-name">Mo's Drones</span>
+      </div>
+  
+      <div class="nav-links">
+        @if (isStaff()) {
+          <a routerLink="/staff/dashboard" routerLinkActive="active">Dashboard</a>
+          <a routerLink="/staff/dispatch" routerLinkActive="active">Dispatch</a>
+          <a routerLink="/staff/drone-tracker" routerLinkActive="active">Drones</a>
+          <a routerLink="/staff/all-packages" routerLinkActive="active">Packages</a>
+        } @else {
+          <a routerLink="/customer/my-deliveries" routerLinkActive="active">My Deliveries</a>
+          <a routerLink="/customer/tracking" routerLinkActive="active">Track Package</a>
+          <a routerLink="/customer/delivery-request" routerLinkActive="active">Request Delivery</a>
+        }
+      </div>
+    </div>
+  
+    <div class="nav-right">
+      <button class="theme-btn" (click)="toggleTheme()">
+        @if (isDark()) {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        } @else {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        }
+      </button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </nav>

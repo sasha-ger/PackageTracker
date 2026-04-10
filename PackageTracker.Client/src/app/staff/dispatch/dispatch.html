@@ -1,1 +1,122 @@
-<p>dispatch works!</p>
+<div class="dispatch-page">
+
+    <div class="page-header">
+      <div class="header-left">
+        <h1>Dispatch SUAS</h1>
+        <p>Manually send an idle drone from one depot to another</p>
+      </div>
+    </div>
+  
+    <div class="dispatch-layout">
+  
+      <!-- Form card -->
+      <div class="dispatch-card">
+        <h2>New Dispatch Order</h2>
+  
+        <!-- Step 1: Select drone -->
+        <div class="form-step">
+          <div class="step-label">
+            <span class="step-number">1</span>
+            Select an idle drone
+          </div>
+          <select
+            [(ngModel)]="selectedSuasId"
+            (ngModelChange)="onSuasSelect()"
+            name="suas">
+            <option [ngValue]="null" disabled>Choose a drone...</option>
+            @for (s of suas; track s.suasId) {
+              <option [ngValue]="s.suasId">
+                SUAS-{{ s.suasId }} — {{ getDepotName(s.currentDepotId) }}
+              </option>
+            }
+          </select>
+          @if (suas.length === 0) {
+            <p class="hint">No idle drones available right now.</p>
+          }
+        </div>
+  
+        <!-- Step 2: From depot (auto filled) -->
+        <div class="form-step" [class.disabled]="!selectedSuasId">
+          <div class="step-label">
+            <span class="step-number">2</span>
+            Current depot (auto-filled)
+          </div>
+          <div class="readonly-field">
+            @if (selectedFromDepotId) {
+              {{ getDepotName(selectedFromDepotId) }}
+            } @else {
+              Select a drone first
+            }
+          </div>
+        </div>
+  
+        <!-- Step 3: To depot -->
+        <div class="form-step" [class.disabled]="!selectedFromDepotId">
+          <div class="step-label">
+            <span class="step-number">3</span>
+            Destination depot
+          </div>
+          <select
+            [(ngModel)]="selectedToDepotId"
+            name="toDepot"
+            [disabled]="!selectedFromDepotId">
+            <option [ngValue]="null" disabled>Choose destination...</option>
+            @for (d of availableToDepots; track d.depotId) {
+              <option [ngValue]="d.depotId">{{ d.name }}</option>
+            }
+          </select>
+        </div>
+  
+        <!-- Summary -->
+        @if (selectedSuasId && selectedFromDepotId && selectedToDepotId) {
+          <div class="dispatch-summary">
+            <div class="summary-row">
+              <span>Drone</span>
+              <strong>SUAS-{{ selectedSuasId }}</strong>
+            </div>
+            <div class="summary-row">
+              <span>From</span>
+              <strong>{{ getDepotName(selectedFromDepotId) }}</strong>
+            </div>
+            <div class="summary-row">
+              <span>To</span>
+              <strong>{{ getDepotName(selectedToDepotId) }}</strong>
+            </div>
+          </div>
+        }
+  
+        @if (successMessage) {
+          <div class="alert success">{{ successMessage }}</div>
+        }
+        @if (errorMessage) {
+          <div class="alert error">{{ errorMessage }}</div>
+        }
+  
+        <button
+          class="dispatch-btn"
+          (click)="dispatch()"
+          [disabled]="!canDispatch() || isSubmitting">
+          {{ isSubmitting ? 'Dispatching...' : 'Confirm Dispatch' }}
+        </button>
+      </div>
+  
+      <!-- Info panel -->
+      <div class="info-panel">
+        <h3>Depot Network</h3>
+        <div class="depot-list">
+          @for (d of depots; track d.depotId) {
+            <div class="depot-item">
+              <div class="depot-info">
+                <span class="depot-name">{{ d.name }}</span>
+                <span class="depot-km">{{ d.locationKm }} km</span>
+              </div>
+              <div class="drone-count" [class.has-drones]="d.availableSuas.length > 0">
+                {{ d.availableSuas.length }} idle
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+  
+    </div>
+  </div>
