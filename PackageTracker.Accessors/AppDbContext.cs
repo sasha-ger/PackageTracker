@@ -76,5 +76,34 @@ public class AppDbContext : DbContext
 			.IsRequired(false)
 			.OnDelete(DeleteBehavior.Restrict);
 
+		//populating 
+		modelBuilder.Entity<Location>().HasData(
+		 new Depot { Id = 1, name = "Seward Depot", LocationId = 1 },
+		 new Depot { Id = 2, name = "Pawnee Lake Depot", LocationId = 2 },
+		 new Depot { Id = 3, name = "Lincoln Northwest Depot", LocationId = 3 },
+		 new Depot { Id = 4, name = "Waverly Depot", LocationId = 4 },
+		 new Depot { Id = 5, name = "Greenwood Depot", LocationId = 5 },
+		 new Depot { Id = 6, name = "Melia Depot", LocationId = 6 },
+		 new Depot { Id = 7, name = "Millard Depot", LocationId = 7 },
+		 new Depot { Id = 8, name = "Omaha Depot", LocationId = 8 },
+		 new Depot { Id = 9, name = "Depot at 27th and O St", LocationId = 9 },
+		 new Depot { Id = 10, name = "Depot at 84th and O St", LocationId = 10 },
+		 new Depot { Id = 11, name = "Depot at 84th St and Hwy 2", LocationId = 11 }
+
+		);
+		modelBuilder.Entity<Location>().HasData(
+		 new Location { Id = 1, Longitude = -97.09659, Latitude = 40.82494 },
+		 new Location { Id = 2, Longitude = -96.89950, Latitude = 40.82654 },
+		 new Location { Id = 3, Longitude = -96.72906, Latitude = 40.86059 },
+		 new Location { Id = 4, Longitude = -96.55367, Latitude = 40.90044 },
+		 new Location { Id = 5, Longitude = -96.40375, Latitude = 40.96567 },
+		 new Location { Id = 6, Longitude = -96.27599, Latitude = 41.08659 },
+		 new Location { Id = 7, Longitude = -96.12001, Latitude = 41.18178 },
+		 new Location { Id = 8, Longitude = -95.94750, Latitude = 41.22241 },
+		 new Location { Id = 9, Longitude = -96.68186, Latitude = 40.81328 },
+		 new Location { Id = 10, Longitude = -96.60705, Latitude = 40.81299 },
+		 new Location { Id = 11, Longitude = -96.60448, Latitude = 40.73600 }
+		);
+
 	}
 }
