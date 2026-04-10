@@ -40,13 +40,19 @@ export class DeliveryService {
   // ✔ This is what your DeliveryRequestComponent expects
   createDeliveryRequest(request: any): Observable<any> {
     const newPkg = {
-      ...request,
       packageId: Math.floor(Math.random() * 1000),
+      customerId: request.customerId,
       status: 'PENDING',
+      pickupLat: request.pickupLat,
+      pickupLng: request.pickupLng,
+      destLat: request.destLat,
+      destLng: request.destLng,
       createdAt: new Date()
     };
-    return of(newPkg);
-  }
+
+  return of(newPkg);
+}
+
 
   // ✔ This is what your MyDeliveriesComponent expects
   getPackagesByCustomer(customerId: number): Observable<Package[]> {
