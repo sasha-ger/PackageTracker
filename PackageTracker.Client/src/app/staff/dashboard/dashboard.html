@@ -1,0 +1,128 @@
+<div class="dashboard">
+
+    <div class="theme-toggle" (click)="toggleTheme()">
+        {{ isDark() ? 'Light Mode' : 'Dark Mode' }}
+      </div>
+
+    <div class="header">
+      <div class="red-bar"></div>
+      <div>
+        <h1>Staff Dashboard</h1>
+        <p>Mo's Drones — Operations Center</p>
+      </div>
+    </div>
+  
+    <div class="cards">
+      <div class="card">
+        <h3>Total Drones</h3>
+        <p class="number">{{ totalDrones }}</p>
+      </div>
+      <div class="card">
+        <h3>Idle Drones</h3>
+        <p class="number">{{ idleDrones }}</p>
+      </div>
+      <div class="card highlight">
+        <h3>Active Drones</h3>
+        <p class="number">{{ activeDrones }}</p>
+      </div>
+      <div class="card highlight">
+        <h3>In Transit</h3>
+        <p class="number">{{ inTransitPackages }}</p>
+      </div>
+      <div class="card">
+        <h3>Delivered</h3>
+        <p class="number">{{ deliveredPackages }}</p>
+      </div>
+    </div>
+  
+    <!-- Drones -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Drone Status</h2>
+        <span class="count">{{ suas.length }}</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Drone ID</th>
+            <th>Status</th>
+            <th>Current Depot</th>
+            <th>Package Onboard</th>
+            <th>Range (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of suas">
+            <td>SUAS-{{ s.suasId }}</td>
+            <td>
+              <span class="badge" [ngClass]="s.status.toLowerCase()">
+                {{ s.status }}
+              </span>
+            </td>
+            <td>Depot {{ s.currentDepotId }}</td>
+            <td>{{ s.packageOnBoard ?? '—' }}</td>
+            <td>{{ s.rangeKm }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Depots -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Depot Network</h2>
+        <span class="count">{{ depots.length }}</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Coordinates</th>
+            <th>Location (km)</th>
+            <th>Available Drones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of depots">
+            <td>{{ d.depotId }}</td>
+            <td>{{ d.name }}</td>
+            <td class="coords">{{ d.address }}</td>
+            <td>{{ d.locationKm }} km</td>
+            <td>{{ d.availableSuas.length }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Packages -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Recent Packages</h2>
+        <span class="count">{{ packages.length }}</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Package ID</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of packages">
+            <td>#{{ p.packageId }}</td>
+            <td>{{ p.origin }}</td>
+            <td>{{ p.destination }}</td>
+            <td>
+              <span class="badge" [ngClass]="p.status.toLowerCase()">
+                {{ p.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  </div>

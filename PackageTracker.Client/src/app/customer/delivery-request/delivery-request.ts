@@ -11,8 +11,11 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './delivery-request.scss',
 })
 export class DeliveryRequestComponent {
-  pickup = '';
-  destination = '';
+  pickupLat: number | null = null;
+  pickupLng: number | null = null;
+  destLat: number | null = null;
+  destLng: number | null = null;
+
   error = '';
   success = '';
 
@@ -29,8 +32,13 @@ export class DeliveryRequestComponent {
       return;
     }
 
-    if (!this.pickup || !this.destination) {
-      this.error = 'Please fill out all fields.';
+    if (
+      this.pickupLat === null ||
+      this.pickupLng === null ||
+      this.destLat === null ||
+      this.destLng === null
+    ) {
+      this.error = 'Please fill out all latitude and longitude fields.';
       return;
     }
 
@@ -39,13 +47,18 @@ export class DeliveryRequestComponent {
 
     this.deliveryService.createDeliveryRequest({
       customerId: userId,
-      origin: this.pickup,
-      destination: this.destination
+      pickupLat: this.pickupLat,
+      pickupLng: this.pickupLng,
+      destLat: this.destLat,
+      destLng: this.destLng
     }).subscribe({
       next: (pkg) => {
         this.success = `Delivery request submitted! New package ID: ${pkg.packageId}`;
-        this.pickup = '';
-        this.destination = '';
+
+        this.pickupLat = null;
+        this.pickupLng = null;
+        this.destLat = null;
+        this.destLng = null;
       },
       error: () => {
         this.error = 'Failed to submit delivery request.';
