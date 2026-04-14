@@ -3,8 +3,13 @@
     <h2>Request a Delivery</h2>
     <p class="subtitle">Enter pickup and destination coordinates</p>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
-    <p class="success" *ngIf="success">{{ success }}</p>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+
+    @if (success) {
+      <p class="success">{{ success }}</p>
+    }
 
     <div class="form-group">
       <label>Pickup Latitude</label>

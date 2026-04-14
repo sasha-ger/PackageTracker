@@ -3,24 +3,28 @@
     <h2>Tracking Package #{{ packageId }}</h2>
     <p class="subtitle">Live status and latest updates</p>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
 
-    <div *ngIf="status" class="status-box">
-      <div class="status-row">
-        <span class="label">Status</span>
-        <span class="value">{{ status.status }}</span>
-      </div>
+    @if (status) {
+      <div class="status-box">
+        <div class="status-row">
+          <span class="label">Status</span>
+          <span class="value">{{ status.status }}</span>
+        </div>
 
-      <div class="status-row">
-        <span class="label">Current Depot</span>
-        <span class="value">{{ status.currentDepotId || '—' }}</span>
-      </div>
+        <div class="status-row">
+          <span class="label">Current Depot</span>
+          <span class="value">{{ status.currentDepotId || '—' }}</span>
+        </div>
 
-      <div class="status-row">
-        <span class="label">Last Updated</span>
-        <span class="value">{{ status.timestamp || '—' }}</span>
+        <div class="status-row">
+          <span class="label">Last Updated</span>
+          <span class="value">{{ status.timestamp || '—' }}</span>
+        </div>
       </div>
-    </div>
+    }
 
     <button class="back-btn" (click)="goBack()">Back to My Deliveries</button>
   </div>
