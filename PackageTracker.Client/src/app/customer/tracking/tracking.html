@@ -1,8 +1,10 @@
-<div class="tracking-wrapper">
-  <div class="tracking-card">
-    <h2>Tracking Package #{{ packageId }}</h2>
-    <p class="subtitle">Live status and latest updates</p>
+<div class="page">
+  <div class="page-header">
+    <h1>Track Package #{{ packageId }}</h1>
+    <p>View the latest status and depot for this package.</p>
+  </div>
 
+  <div class="card">
     @if (error) {
       <p class="error">{{ error }}</p>
     }
@@ -11,7 +13,11 @@
       <div class="status-box">
         <div class="status-row">
           <span class="label">Status</span>
-          <span class="value">{{ status.status }}</span>
+          <span class="value">
+            <span class="badge {{ status.status.toLowerCase() }}">
+              {{ status.status }}
+            </span>
+          </span>
         </div>
 
         <div class="status-row">
@@ -26,6 +32,6 @@
       </div>
     }
 
-    <button class="back-btn" (click)="goBack()">Back to My Deliveries</button>
+    <button class="btn" (click)="goBack()">Back to My Deliveries</button>
   </div>
 </div>

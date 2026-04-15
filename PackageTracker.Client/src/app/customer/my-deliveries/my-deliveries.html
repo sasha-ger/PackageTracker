@@ -1,26 +1,45 @@
-<div class="deliveries-wrapper">
-  <div class="deliveries-card">
-    <h2>My Deliveries</h2>
-    <p class="subtitle">View the status of your packages</p>
+<div class="page">
+  <div class="page-header">
+    <h1>My Deliveries</h1>
+    <p>View the status of your active and past packages.</p>
+  </div>
 
-    <button class="request-btn" (click)="goToRequest()">Request a Delivery</button>
+  <div class="card">
+<button class="request-btn" (click)="goToRequest()">
+  Request a Delivery
+</button>
 
-    <p class="error" *ngIf="error">{{ error }}</p>
 
-    <div *ngIf="deliveries.length === 0 && !error" class="empty">
-      <p>You have no deliveries yet.</p>
-    </div>
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
 
-    <div class="delivery-list">
-      <div *ngFor="let d of deliveries" class="delivery-item">
-        <h3>Package #{{ d.packageId }}</h3>
+    @if (!error && deliveries.length === 0) {
+      <p class="empty">You have no deliveries yet.</p>
+    }
 
-        <p><strong>Status:</strong> {{ d.status }}</p>
-        <p><strong>Current Depot:</strong> {{ d.currentDepotId }}</p>
-        <p><strong>Last Updated:</strong> {{ d.timestamp }}</p>
+    @if (!error && deliveries.length > 0) {
+      <div class="delivery-list">
+        @for (d of deliveries; track d.packageId) {
+          <div class="delivery-item">
+            <div class="delivery-header">
+              <h3>Package #{{ d.packageId }}</h3>
+              <span class="badge {{ d.status.toLowerCase() }}">
+                {{ d.status }}
+              </span>
+            </div>
 
-        <button class="track-btn" (click)="track(d.packageId)">Track</button>
+            <p><strong>Origin:</strong> {{ d.origin }}</p>
+            <p><strong>Destination:</strong> {{ d.destination }}</p>
+            <p><strong>Current Depot:</strong> {{ getDepotName(d.currentDepotId) }}</p>
+            <p><strong>Created:</strong> {{ d.createdAt | date:'short' }}</p>
+
+            <button class="btn secondary" (click)="track(d.packageId)">
+              Track
+            </button>
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
 </div>

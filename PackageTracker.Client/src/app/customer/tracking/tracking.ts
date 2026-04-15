@@ -21,7 +21,7 @@ export class TrackingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.packageId = Number(this.route.snapshot.queryParamMap.get('packageId'));
+    this.packageId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!this.packageId) {
       this.error = 'No package ID provided.';
@@ -29,12 +29,8 @@ export class TrackingComponent implements OnInit {
     }
 
     this.packageEvents.getPackageStatus(this.packageId).subscribe({
-      next: (result: any) => {
-        this.status = result;
-      },
-      error: () => {
-        this.error = 'Failed to load package status.';
-      }
+      next: (result: any) => (this.status = result),
+      error: () => (this.error = 'Failed to load package status.')
     });
   }
 

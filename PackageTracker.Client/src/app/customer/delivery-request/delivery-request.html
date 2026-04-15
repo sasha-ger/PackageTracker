@@ -1,8 +1,10 @@
-<div class="delivery-request-wrapper">
-  <div class="delivery-request-card">
-    <h2>Request a Delivery</h2>
-    <p class="subtitle">Enter pickup and destination coordinates</p>
+<div class="page">
+  <div class="page-header">
+    <h1>Request a Delivery</h1>
+    <p>Create a new delivery from a depot to a destination address.</p>
+  </div>
 
+  <div class="card">
     @if (error) {
       <p class="error">{{ error }}</p>
     }
@@ -12,25 +14,25 @@
     }
 
     <div class="form-group">
-      <label>Pickup Latitude</label>
-      <input type="number" [(ngModel)]="pickupLat" placeholder="Enter pickup latitude" />
+      <label>Pickup Depot</label>
+      <select class="input" [(ngModel)]="pickupDepotId">
+        <option [ngValue]="null" disabled selected>Select a depot</option>
+        @for (id of depotIds; track id) {
+          <option [ngValue]="id">{{ depotMap[id] }}</option>
+        }
+      </select>
     </div>
 
     <div class="form-group">
-      <label>Pickup Longitude</label>
-      <input type="number" [(ngModel)]="pickupLng" placeholder="Enter pickup longitude" />
+      <label>Destination Address</label>
+      <input
+        class="input"
+        type="text"
+        [(ngModel)]="destinationAddress"
+        placeholder="123 Main St, Lincoln NE"
+      />
     </div>
 
-    <div class="form-group">
-      <label>Destination Latitude</label>
-      <input type="number" [(ngModel)]="destLat" placeholder="Enter destination latitude" />
-    </div>
-
-    <div class="form-group">
-      <label>Destination Longitude</label>
-      <input type="number" [(ngModel)]="destLng" placeholder="Enter destination longitude" />
-    </div>
-
-    <button class="submit-btn" (click)="submitRequest()">Submit Request</button>
+    <button class="btn" (click)="submitRequest()">Submit Request</button>
   </div>
 </div>

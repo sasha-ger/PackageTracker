@@ -1,20 +1,25 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DeliveryService } from '../../core/services/delivery.service';
 import { AuthService } from '../../core/services/auth.service';
+import { DEPOT_MAP } from '../../models/depot.model';
+imports: [CommonModule, FormsModule];
+
 
 @Component({
   selector: 'app-delivery-request',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './delivery-request.html',
   styleUrl: './delivery-request.scss',
 })
 export class DeliveryRequestComponent {
-  pickupLat: number | null = null;
-  pickupLng: number | null = null;
-  destLat: number | null = null;
-  destLng: number | null = null;
+  depotMap = DEPOT_MAP;
+  depotIds = Object.keys(DEPOT_MAP).map(Number);
+
+  pickupDepotId: number | null = null;
+  destinationAddress = '';
 
   error = '';
   success = '';
@@ -32,13 +37,8 @@ export class DeliveryRequestComponent {
       return;
     }
 
-    if (
-      this.pickupLat === null ||
-      this.pickupLng === null ||
-      this.destLat === null ||
-      this.destLng === null
-    ) {
-      this.error = 'Please fill out all latitude and longitude fields.';
+    if (!this.pickupDepotId || !this.destinationAddress.trim()) {
+      this.error = 'Please select a pickup depot and enter a destination address.';
       return;
     }
 
@@ -47,18 +47,13 @@ export class DeliveryRequestComponent {
 
     this.deliveryService.createDeliveryRequest({
       customerId: userId,
-      pickupLat: this.pickupLat,
-      pickupLng: this.pickupLng,
-      destLat: this.destLat,
-      destLng: this.destLng
+      pickupDepotId: this.pickupDepotId,
+      destinationAddress: this.destinationAddress
     }).subscribe({
       next: (pkg) => {
         this.success = `Delivery request submitted! New package ID: ${pkg.packageId}`;
-
-        this.pickupLat = null;
-        this.pickupLng = null;
-        this.destLat = null;
-        this.destLng = null;
+        this.pickupDepotId = null;
+        this.destinationAddress = '';
       },
       error: () => {
         this.error = 'Failed to submit delivery request.';
@@ -66,7 +61,3 @@ export class DeliveryRequestComponent {
     });
   }
 }
-
-
-
-
