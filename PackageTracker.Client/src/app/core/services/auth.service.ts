@@ -5,36 +5,41 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private apiUrl = 'http://localhost:5064/api/auth';
+
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string, isStaff: boolean = false): Observable<any> {
-    const fakeResponse = {
-      token: 'fake-jwt-token',
-      userId: 1,
-      role: isStaff ? 'STAFF' : 'CUSTOMER'
-    };
-    return of(fakeResponse).pipe(
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(res => {
         localStorage.setItem('token', res.token);
-        localStorage.setItem('role', res.role);
+        // Get role from token after login
+        this.getRoleFromToken(res.token).subscribe(roleRes => {
+          localStorage.setItem('role', roleRes.role);
+        });
       })
     );
   }
 
-  getUserIdFromToken(): number {
-    return 1;
+  getRoleFromToken(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/role?token=${token}`);
   }
 
-  isStaff(): boolean {
-    return localStorage.getItem('role') === 'STAFF';
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+  validateToken(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/validate?token=${token}`);
   }
 
   logout(): void {
+    const token = this.getToken();
+    if (token) {
+      this.http.post(`${this.apiUrl}/logout`, {}).subscribe();
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('role');
   }
+
+  isStaff(): boolean { return localStorage.getItem('role') === 'Staff'; }
+  isLoggedIn(): boolean { return !!localStorage.getItem('token'); }
+  getToken(): string | null { return localStorage.getItem('token'); }
+  getUserIdFromToken(): number { return 1; } // will come from JWT claims
 }
