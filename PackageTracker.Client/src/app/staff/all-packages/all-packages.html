@@ -48,25 +48,25 @@
         <thead>
           <tr>
             <th>Package ID</th>
+            <th>Tracking #</th>
             <th>Origin</th>
             <th>Destination</th>
             <th>Status</th>
-            <th>Weight</th>
             <th>Created</th>
           </tr>
         </thead>
         <tbody>
-          @for (p of filtered; track p.packageId) {
+          @for (p of filtered; track p.id) {
             <tr>
-              <td><span class="pkg-id">#{{ p.packageId }}</span></td>
-              <td>{{ p.origin }}</td>
-              <td>{{ p.destination }}</td>
+              <td><span class="pkg-id">#{{ p.id }}</span></td>
+              <td>{{ p.trackingNumber }}</td>
+              <td>{{ p.originLocation.address }}</td>
+              <td>{{ p.destinationLocation.address }}</td>
               <td>
                 <span class="badge" [ngClass]="p.status.toLowerCase()">
                   {{ p.status }}
                 </span>
               </td>
-              <td>{{ p.weight }} kg</td>
               <td>{{ p.createdAt | date:'MMM d, y' }}</td>
             </tr>
           }

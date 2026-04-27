@@ -17,7 +17,7 @@ export class AllPackages implements OnInit {
   searchTerm = '';
   selectedStatus = 'ALL';
 
-  statuses = ['ALL', 'PENDING', 'IN_TRANSIT', 'DELIVERED', 'CANCELLED'];
+  statuses = ['ALL', 'Pending', 'InTransit', 'Delivered', 'Failed'];
 
   constructor(private deliveryService: DeliveryService) {}
 
@@ -29,11 +29,13 @@ export class AllPackages implements OnInit {
   }
 
   applyFilter() {
+    const term = this.searchTerm.toLowerCase();
     this.filtered = this.packages.filter(p => {
       const matchesSearch =
-        p.origin.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        p.destination.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        p.packageId.toString().includes(this.searchTerm);
+        (p.originLocation.address ?? '').toLowerCase().includes(term) ||
+        (p.destinationLocation.address ?? '').toLowerCase().includes(term) ||
+        p.id.toString().includes(this.searchTerm) ||
+        p.trackingNumber.toLowerCase().includes(term);
       const matchesStatus =
         this.selectedStatus === 'ALL' || p.status === this.selectedStatus;
       return matchesSearch && matchesStatus;
@@ -41,7 +43,7 @@ export class AllPackages implements OnInit {
   }
 
   get totalCount() { return this.packages.length; }
-  get inTransitCount() { return this.packages.filter(p => p.status === 'IN_TRANSIT').length; }
-  get deliveredCount() { return this.packages.filter(p => p.status === 'DELIVERED').length; }
-  get pendingCount() { return this.packages.filter(p => p.status === 'PENDING').length; }
+  get inTransitCount() { return this.packages.filter(p => p.status === 'InTransit').length; }
+  get deliveredCount() { return this.packages.filter(p => p.status === 'Delivered').length; }
+  get pendingCount() { return this.packages.filter(p => p.status === 'Pending').length; }
 }

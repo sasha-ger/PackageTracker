@@ -79,17 +79,13 @@
             <th>ID</th>
             <th>Name</th>
             <th>Coordinates</th>
-            <th>Location (km)</th>
-            <th>Available Drones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let d of depots">
             <td>{{ d.depotId }}</td>
             <td>{{ d.name }}</td>
-            <td class="coords">{{ d.address }}</td>
-            <td>{{ d.locationKm }} km</td>
-            <td>{{ d.availableSuas.length }}</td>
+            <td class="coords">{{ d.latitude }}, {{ d.longitude }}</td>
           </tr>
         </tbody>
       </table>
@@ -112,9 +108,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let p of packages">
-            <td>#{{ p.packageId }}</td>
-            <td>{{ p.origin }}</td>
-            <td>{{ p.destination }}</td>
+            <td>#{{ p.id }}</td>
+            <td>{{ p.originLocation.address }}</td>
+            <td>{{ p.destinationLocation.address }}</td>
             <td>
               <span class="badge" [ngClass]="p.status.toLowerCase()">
                 {{ p.status }}

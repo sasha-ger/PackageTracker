@@ -1,39 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Package } from '../../models/package.model';
+import { Package } from '../../models';
+import { API_BASE } from '../api.config';
+
+export interface DeliveryRequest {
+  originAddress: string;
+  originLat: number;
+  originLng: number;
+  destinationAddress: string;
+  destinationLat: number;
+  destinationLng: number;
+  recipient: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
 
-  private apiUrl = 'https://localhost:7083/api/Deliveries';
-
   constructor(private http: HttpClient) {}
 
-  // ⭐ GET all deliveries for a specific customer
-  getDeliveriesForCustomer(customerId: number): Observable<Package[]> {
-    return this.http.get<Package[]>(`${this.apiUrl}/customer/${customerId}`);
-  }
-
-  // ⭐ GET all deliveries (for staff dashboard)
   getAllDeliveries(): Observable<Package[]> {
-    return this.http.get<Package[]>(this.apiUrl);
+    return this.http.get<Package[]>(`${API_BASE}/staff/packages/active`);
   }
 
-  // ⭐ GET a single delivery by ID
-  getDeliveryById(id: number): Observable<Package> {
-    return this.http.get<Package>(`${this.apiUrl}/${id}`);
+  getDeliveriesForCustomer(customerId: number): Observable<Package[]> {
+    return this.http.get<Package[]>(`${API_BASE}/customer/${customerId}/packages`);
   }
 
-  // ⭐ POST a new delivery request (for customers)
-  createDelivery(request: {
-    senderId: number;
-    recipient: string;
-    originLocationId: number;
-    destinationLocationId: number;
-  }): Observable<any> {
-    return this.http.post<any>(this.apiUrl, request);
+  createDeliveryRequest(request: DeliveryRequest): Observable<string> {
+    return this.http.post(`${API_BASE}/customer/request`, request, { responseType: 'text' });
   }
 }

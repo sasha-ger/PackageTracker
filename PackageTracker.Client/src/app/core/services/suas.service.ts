@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { SUAS } from '../../models';
+import { API_BASE } from '../api.config';
 
 @Injectable({ providedIn: 'root' })
 export class SuasService {
-  private staffUrl = 'http://localhost:5064/api/staff';
+  private staffUrl = `${API_BASE}/staff`;
 
   constructor(private http: HttpClient) {}
 

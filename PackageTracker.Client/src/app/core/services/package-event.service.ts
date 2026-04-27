@@ -25,13 +25,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE } from '../api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PackageEventService {
 
-  private apiUrl = 'https://localhost:7083/api/PackageEvents';
+  private apiUrl = `${API_BASE}/PackageEvents`;
 
   constructor(private http: HttpClient) {}
 

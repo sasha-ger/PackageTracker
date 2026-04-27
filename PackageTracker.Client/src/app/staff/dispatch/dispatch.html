@@ -108,10 +108,6 @@
             <div class="depot-item">
               <div class="depot-info">
                 <span class="depot-name">{{ d.name }}</span>
-                <span class="depot-km">{{ d.locationKm }} km</span>
-              </div>
-              <div class="drone-count" [class.has-drones]="d.availableSuas.length > 0">
-                {{ d.availableSuas.length }} idle
               </div>
             </div>
           }

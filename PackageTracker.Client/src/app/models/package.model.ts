@@ -1,22 +1,26 @@
-// ─────────────────────────────────────────────
-// src/app/models/package.model.ts
-// ─────────────────────────────────────────────
+export interface Location {
+  id: number;
+  address: string | null;
+  latitude: number;
+  longitude: number;
+}
+
 export interface Package {
-    packageId: number;
-    customerId: number;
-    status: PackageStatus;
-    weight: number;
-    origin: string;
-    destination: string;
-    currentDepotId?: number;
-    currentSuasId?: number;
-    createdAt: Date;
-  }
-   
-  export type PackageStatus =
-    | 'PENDING'
-    | 'DISPATCHED'
-    | 'IN_TRANSIT'
-    | 'AT_DEPOT'
-    | 'DELIVERED'
-    | 'CANCELLED';
+  id: number;
+  trackingNumber: string;
+  senderId: number;
+  recipient: string;
+  originLocationId: number;
+  originLocation: Location;
+  destinationLocationId: number;
+  destinationLocation: Location;
+  status: PackageStatus;
+  createdAt: string;
+  updatedAt: string | null;
+}
+
+export type PackageStatus =
+  | 'Pending'
+  | 'InTransit'
+  | 'Delivered'
+  | 'Failed';

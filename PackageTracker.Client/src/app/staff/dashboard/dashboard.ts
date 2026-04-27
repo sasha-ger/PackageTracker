@@ -51,8 +51,8 @@ export class DashboardComponent implements OnInit {
     this.deliveryService.getAllDeliveries().subscribe(data => {
       this.packages = data;
       this.totalPackages = data.length;
-      this.inTransitPackages = data.filter(p => p.status === 'IN_TRANSIT').length;
-      this.deliveredPackages = data.filter(p => p.status === 'DELIVERED').length;
+      this.inTransitPackages = data.filter(p => p.status === 'InTransit').length;
+      this.deliveredPackages = data.filter(p => p.status === 'Delivered').length;
     });
   }
 }
