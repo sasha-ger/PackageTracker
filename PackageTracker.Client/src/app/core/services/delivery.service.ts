@@ -25,6 +25,10 @@ export class DeliveryService {
     return this.http.get<Package[]>(`${API_BASE}/staff/packages/active`);
   }
 
+  getAllPackages(): Observable<Package[]> {
+    return this.http.get<Package[]>(`${API_BASE}/staff/packages/all`);
+  }
+
   getDeliveriesForCustomer(customerId: number): Observable<Package[]> {
     return this.http.get<Package[]>(`${API_BASE}/customer/${customerId}/packages`);
   }

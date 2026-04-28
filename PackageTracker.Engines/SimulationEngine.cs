@@ -52,7 +52,7 @@ public class SimulationEngine : ISimulationEngine
             d.EstimatedArrivalTime <= DateTime.UtcNow))
         {
             drone.Status = DroneStatus.Idle;
-            drone.CurrentDepotId = drone.HomeDepotId;
+            drone.CurrentDepotId = drone.DestinationDepotId ?? drone.HomeDepotId;
             drone.DestinationDepotId = null;
             drone.EstimatedArrivalTime = null;
             await _droneAccessor.UpdateDrone(drone);

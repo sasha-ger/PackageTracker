@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { staffGuard, customerGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'customer/login', pathMatch: 'full' },
@@ -12,16 +13,19 @@ const routes: Routes = [
       },
       {
         path: 'tracking/:id',
+        canActivate: [customerGuard],
         loadComponent: () =>
           import('./customer/tracking/tracking').then(m => m.TrackingComponent)
       },
       {
         path: 'delivery-request',
+        canActivate: [customerGuard],
         loadComponent: () =>
           import('./customer/delivery-request/delivery-request').then(m => m.DeliveryRequestComponent)
       },
       {
         path: 'my-deliveries',
+        canActivate: [customerGuard],
         loadComponent: () =>
           import('./customer/my-deliveries/my-deliveries').then(m => m.MyDeliveriesComponent)
       }
@@ -29,6 +33,7 @@ const routes: Routes = [
   },
   {
     path: 'staff',
+    canActivateChild: [staffGuard],
     children: [
       {
         path: 'dashboard',

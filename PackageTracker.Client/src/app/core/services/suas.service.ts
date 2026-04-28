@@ -19,7 +19,9 @@ export class SuasService {
   }
 
   manualDispatch(suasId: number, fromDepotId: number, toDepotId: number): Observable<void> {
-    // No dispatch endpoint yet — keep mock for now
-    return of(void 0);
+    return this.http.post<void>(
+      `${this.staffUrl}/drones/dispatch?droneId=${suasId}&fromDepotId=${fromDepotId}&toDepotId=${toDepotId}`,
+      {}
+    );
   }
 }

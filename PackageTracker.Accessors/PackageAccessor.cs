@@ -23,6 +23,14 @@ public class PackageAccessor : IPackageAccessor
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public async Task<List<Package>> GetAll()
+    {
+        return await _db.Packages
+            .Include(p => p.OriginLocation)
+            .Include(p => p.DestinationLocation)
+            .ToListAsync();
+    }
+
     public async Task<Package?> GetByTrackingNumber(string trackingNumber)
     {
         return await _db.Packages.FirstOrDefaultAsync(p => p.TrackingNumber == trackingNumber);

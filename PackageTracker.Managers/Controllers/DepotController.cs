@@ -8,7 +8,7 @@ namespace PackageTracker.Managers.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/depots")]
-public class DepotController(IDepotAccessor depotAccessor) : ControllerBase
+public class DepotController(IDepotAccessor depotAccessor, IDroneAccessor droneAccessor, IPackageAccessor packageAccessor) : ControllerBase
 {
     // GET api/depots
     // Returns all depots in the network.
@@ -25,5 +25,16 @@ public class DepotController(IDepotAccessor depotAccessor) : ControllerBase
             Address = d.Location.Address
         });
         return Ok(dtos);
+    }
+
+    // GET api/depots/stats — public, used by the login page
+    [AllowAnonymous]
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var depotCount = (await depotAccessor.GetAll()).Count;
+        var droneCount = (await droneAccessor.GetAll()).Count;
+        var packageCount = (await packageAccessor.GetAll()).Count;
+        return Ok(new { depotCount, droneCount, packageCount });
     }
 }

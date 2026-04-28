@@ -22,7 +22,7 @@ export class AllPackages implements OnInit {
   constructor(private deliveryService: DeliveryService) {}
 
   ngOnInit() {
-    this.deliveryService.getAllDeliveries().subscribe(data => {
+    this.deliveryService.getAllPackages().subscribe(data => {
       this.packages = data;
       this.filtered = data;
     });

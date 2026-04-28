@@ -7,6 +7,7 @@ public interface IPackageAccessor
 {
     Task<Package?> GetById(int id);
     Task<Package?> GetByTrackingNumber(string trackingNumber);
+    Task<List<Package>> GetAll();
     Task<List<Package>> GetAllActive();
     Task<List<Package>> GetBySenderId(int senderId);
     Task<Package> Create(Package package);

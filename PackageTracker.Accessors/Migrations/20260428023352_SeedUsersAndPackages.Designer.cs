@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PackageTracker.Accessors.Data;
 
@@ -11,9 +12,11 @@ using PackageTracker.Accessors.Data;
 namespace PackageTracker.Accessors.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260428023352_SeedUsersAndPackages")]
+    partial class SeedUsersAndPackages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -569,9 +572,8 @@ namespace PackageTracker.Accessors.Migrations
                             OriginLocationId = 12,
                             Recipient = "Bob Johnson",
                             SenderId = 1,
-                            Status = 2,
-                            TrackingNumber = "ABC12345",
-                            UpdatedAt = new DateTime(2026, 4, 25, 12, 0, 0, 0, DateTimeKind.Utc)
+                            Status = 0,
+                            TrackingNumber = "ABC12345"
                         },
                         new
                         {
@@ -581,9 +583,9 @@ namespace PackageTracker.Accessors.Migrations
                             OriginLocationId = 13,
                             Recipient = "Alice Williams",
                             SenderId = 1,
-                            Status = 2,
+                            Status = 1,
                             TrackingNumber = "DEF67890",
-                            UpdatedAt = new DateTime(2026, 4, 24, 16, 0, 0, 0, DateTimeKind.Utc)
+                            UpdatedAt = new DateTime(2026, 4, 24, 15, 30, 0, 0, DateTimeKind.Utc)
                         },
                         new
                         {
@@ -683,16 +685,6 @@ namespace PackageTracker.Accessors.Migrations
                             Password = "password123",
                             Role = 1,
                             Username = "johnstaff"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "bob@test.com",
-                            Firstname = "Bob",
-                            Lastname = "Jones",
-                            Password = "password123",
-                            Role = 0,
-                            Username = "bobcustomer"
                         });
                 });
 

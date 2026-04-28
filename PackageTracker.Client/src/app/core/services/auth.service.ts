@@ -14,10 +14,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
       tap(res => {
         localStorage.setItem('token', res.token);
-        // Get role from token after login
-        this.getRoleFromToken(res.token).subscribe(roleRes => {
-          localStorage.setItem('role', roleRes.role);
-        });
+        localStorage.setItem('role', this.decodeRoleFromToken(res.token));
       })
     );
   }
@@ -39,9 +36,21 @@ export class AuthService {
     localStorage.removeItem('role');
   }
 
-  isStaff(): boolean { return localStorage.getItem('role') === 'Staff'; }
+  isStaff(): boolean { return this.decodeRoleFromToken(this.getToken()) === 'Staff'; }
   isLoggedIn(): boolean { return !!localStorage.getItem('token'); }
   getToken(): string | null { return localStorage.getItem('token'); }
+
+  private decodeRoleFromToken(token: string | null): string {
+    if (!token) return '';
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+        ?? payload.role
+        ?? '';
+    } catch {
+      return '';
+    }
+  }
 
   getUserIdFromToken(): number {
     const token = this.getToken();

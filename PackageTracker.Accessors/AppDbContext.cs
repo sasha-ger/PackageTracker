@@ -139,6 +139,7 @@ public class AppDbContext : DbContext
 		);
 
 		modelBuilder.Entity<Location>().HasData(
+		 // Depot locations (1–11)
 		 new Location { Id = 1,  Longitude = -97.09659, Latitude = 40.82494 },
 		 new Location { Id = 2,  Longitude = -96.89950, Latitude = 40.82654 },
 		 new Location { Id = 3,  Longitude = -96.72906, Latitude = 40.86059 },
@@ -149,7 +150,47 @@ public class AppDbContext : DbContext
 		 new Location { Id = 8,  Longitude = -95.94750, Latitude = 41.22241 },
 		 new Location { Id = 9,  Longitude = -96.68186, Latitude = 40.81328 },
 		 new Location { Id = 10, Longitude = -96.60705, Latitude = 40.81299 },
-		 new Location { Id = 11, Longitude = -96.60448, Latitude = 40.73600 }
+		 new Location { Id = 11, Longitude = -96.60448, Latitude = 40.73600 },
+		 // Demo package locations (12–17)
+		 new Location { Id = 12, Address = "123 Main St, Seward, NE",       Latitude = 40.9036, Longitude = -97.0973 },
+		 new Location { Id = 13, Address = "456 Oak Ave, Lincoln, NE",       Latitude = 40.8136, Longitude = -96.7026 },
+		 new Location { Id = 14, Address = "789 Pine Rd, Omaha, NE",         Latitude = 41.2524, Longitude = -95.9980 },
+		 new Location { Id = 15, Address = "321 Elm St, Waverly, NE",        Latitude = 40.9131, Longitude = -96.5312 },
+		 new Location { Id = 16, Address = "654 Maple Dr, Millard, NE",      Latitude = 41.1900, Longitude = -96.1200 },
+		 new Location { Id = 17, Address = "987 Cedar Blvd, Greenwood, NE",  Latitude = 40.9749, Longitude = -96.4337 }
+		);
+
+		modelBuilder.Entity<User>().HasData(
+		 new User { Id = 1, Username = "janedoe",   Firstname = "Jane", Lastname = "Doe",   Email = "jane@test.com",   Password = "password123", Role = UserRole.Customer },
+		 new User { Id = 2, Username = "johnstaff", Firstname = "John", Lastname = "Smith", Email = "staff@test.com",  Password = "password123", Role = UserRole.Staff    },
+		 new User { Id = 3, Username = "bobcustomer", Firstname = "Bob", Lastname = "Jones", Email = "bob@test.com",   Password = "password123", Role = UserRole.Customer }
+		);
+
+		modelBuilder.Entity<Package>().HasData(
+		 new Package
+		 {
+		     Id = 1, TrackingNumber = "ABC12345", SenderId = 1, Recipient = "Bob Johnson",
+		     OriginLocationId = 12, DestinationLocationId = 14,
+		     Status = PackageStatus.Delivered,
+		     CreatedAt = new DateTime(2026, 4, 25, 10, 0, 0, DateTimeKind.Utc),
+		     UpdatedAt = new DateTime(2026, 4, 25, 12, 0, 0, DateTimeKind.Utc)
+		 },
+		 new Package
+		 {
+		     Id = 2, TrackingNumber = "DEF67890", SenderId = 1, Recipient = "Alice Williams",
+		     OriginLocationId = 13, DestinationLocationId = 16,
+		     Status = PackageStatus.Delivered,
+		     CreatedAt  = new DateTime(2026, 4, 24, 14,  0, 0, DateTimeKind.Utc),
+		     UpdatedAt  = new DateTime(2026, 4, 24, 16, 0, 0, DateTimeKind.Utc)
+		 },
+		 new Package
+		 {
+		     Id = 3, TrackingNumber = "GHI11223", SenderId = 1, Recipient = "Charlie Brown",
+		     OriginLocationId = 15, DestinationLocationId = 17,
+		     Status = PackageStatus.Delivered,
+		     CreatedAt = new DateTime(2026, 4, 23,  9, 0, 0, DateTimeKind.Utc),
+		     UpdatedAt = new DateTime(2026, 4, 23, 16, 0, 0, DateTimeKind.Utc)
+		 }
 		);
 	}
 }

@@ -41,4 +41,29 @@ public class StaffController(IStaffTrackingEngine staffTrackingEngine)
         var packages = await staffTrackingEngine.GetAllActivePackages();
         return Ok(packages);
     }
+
+    // GET api/staff/packages/all
+    // Returns every package regardless of status.
+    [HttpGet("packages/all")]
+    public async Task<IActionResult> GetAllPackages()
+    {
+        var packages = await staffTrackingEngine.GetAllPackages();
+        return Ok(packages);
+    }
+
+    // POST api/staff/drones/dispatch
+    // Repositions an idle drone from one depot to another.
+    [HttpPost("drones/dispatch")]
+    public async Task<IActionResult> DispatchDrone(int droneId, int fromDepotId, int toDepotId)
+    {
+        try
+        {
+            await staffTrackingEngine.ManualDispatchDrone(droneId, fromDepotId, toDepotId);
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

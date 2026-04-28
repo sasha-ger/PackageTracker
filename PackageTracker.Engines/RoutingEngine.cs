@@ -114,11 +114,10 @@ public class RoutingEngine : IRoutingEngine
         return path;
     }
 
-    // Returns the simulated travel time for a drone to cover the given distance.
+    // Returns the simulated travel time for a drone.
+    // Uses seconds-per-mile so each delivery leg completes in ~30-60 seconds, visible during a demo.
     public TimeSpan GetTravelTime(double distanceMiles)
     {
-        var hours = distanceMiles / DroneSpeedMph;
-
-        return TimeSpan.FromHours(hours);
+        return TimeSpan.FromSeconds(distanceMiles * 2);
     }
 }
